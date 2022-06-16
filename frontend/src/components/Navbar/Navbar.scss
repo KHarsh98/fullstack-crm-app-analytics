@@ -1,0 +1,23 @@
+$font-stack: Helvetica, sans-serif;
+$background-color: #fff;
+$font-size: 20px;
+$hover-color: #3b5998;
+$link-color: #8b9dc3;
+$logo-height: 70px;
+
+.navbar {
+  background-color: $background-color;
+  padding: 20px;
+  a {
+    color: $link-color;
+    text-decoration: none;
+    font-size: $font-size;
+    text-transform: none;
+  }
+  a:hover {
+    color: $hover-color;
+  }
+  img {
+    height: $logo-height;
+  }
+}
