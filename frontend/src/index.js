@@ -5,6 +5,12 @@ import "./index.css";
 import App from "./App";
 import Navbar from "./components/Navbar/Navbar";
 import reportWebVitals from "./reportWebVitals";
+import Dashboard from "./components/Dashboard/Dashboard";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import CustomerDetail from "./components/Customers/CustomerDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,6 +18,10 @@ root.render(
     <Navbar />
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="customer">
+        <Route path=":id" element={<CustomerDetail />} />
+      </Route>
     </Routes>
   </BrowserRouter>
 );
