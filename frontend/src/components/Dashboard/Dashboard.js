@@ -37,7 +37,6 @@ function Dashboard() {
     <Stack m={3} spacing={6} alignItems="stretch">
       {orders && customers && (
         <>
-          {" "}
           <InfoTiles orders={orders} />
           <Stack direction="row" spacing={5}>
             <RecentCustomers customers={customers} />
