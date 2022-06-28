@@ -13,30 +13,50 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
-function UpdateCustomer(props) {
+function CustomerForm(props) {
   const navigate = useNavigate();
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({
-    defaultValues: {
-      name: props.customer.name,
-      email: props.customer.email,
-      phone: props.customer.phone,
-    },
+    defaultValues: props.customer
+      ? {
+          name: props.customer.name,
+          email: props.customer.email,
+          phone: props.customer.phone,
+        }
+      : {
+          name: "",
+          email: "",
+          phone: "",
+        },
   });
 
   const onSubmit = async (data) => {
     console.log(data, JSON.stringify(data));
-    const requestUrl = API_URL + `/customers/${props.customer.id}/`;
-    const request = new Request(requestUrl, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    let request;
+
+    if (props.customer) {
+      const requestUrl = API_URL + `/customers/${props.customer.id}/`;
+
+      request = new Request(requestUrl, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } else {
+      const requestUrl = API_URL + "/customers/";
+      request = new Request(requestUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    }
     try {
       const response = await fetch(request);
 
@@ -53,7 +73,8 @@ function UpdateCustomer(props) {
     }
   };
   const handleClose = () => {
-    props.setUpdateDialogOpen(false);
+    if (props.setUpdateDialogOpen) props.setUpdateDialogOpen(false);
+    if (props.setcreateCustomerDialog) props.setcreateCustomerDialog(false);
   };
   return (
     <Dialog
@@ -66,7 +87,9 @@ function UpdateCustomer(props) {
     >
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <DialogTitle id="update-customer-alert-dialog-title">
-          {`Update Customer: ${props.customer.name}`}
+          {props.customer
+            ? `Update Customer: ${props.customer.name}`
+            : "Create new customer"}
         </DialogTitle>
         <DialogContent>
           <Stack spacing={3} mt={3}>
@@ -152,4 +175,4 @@ function UpdateCustomer(props) {
   );
 }
 
-export default UpdateCustomer;
+export default CustomerForm;

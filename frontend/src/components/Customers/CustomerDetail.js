@@ -25,7 +25,7 @@ import "./CustomerDetail.scss";
 import { Delete, Edit } from "@mui/icons-material";
 import orderStatuses from "constants/ORDER_STATUS";
 import DeleteCustomer from "components/Dialogs/DeleteCustomer";
-import UpdateCustomer from "components/Dialogs/UpdateCustomer";
+import CustomerForm from "components/Dialogs/CustomerForm";
 function CustomerDetail() {
   const { id } = useParams();
   const [customer, setcustomer] = useState();
@@ -243,7 +243,7 @@ function CustomerDetail() {
             customer={customer}
           />
           {updateDialogOpen && (
-            <UpdateCustomer
+            <CustomerForm
               customer={customer}
               open={updateDialogOpen}
               setUpdateDialogOpen={setUpdateDialogOpen}
