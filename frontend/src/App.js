@@ -1,9 +1,8 @@
 import "./App.css";
-import Customers from "./components/Customers/Customers";
 
 function App() {
   // TODO: Make this index page
-  return <Customers />;
+  return <div></div>;
 }
 
 export default App;

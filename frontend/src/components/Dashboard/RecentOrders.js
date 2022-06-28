@@ -30,7 +30,7 @@ function RecentOrders({ orders }) {
             <TableRow>
               <TableCell>Order Number</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell align="right">Date Created</TableCell>
+              <TableCell align="right">Date Of Order</TableCell>
               <TableCell>View</TableCell>
               <TableCell>Update</TableCell>
               <TableCell>Remove</TableCell>

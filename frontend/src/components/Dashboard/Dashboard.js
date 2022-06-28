@@ -3,7 +3,7 @@ import { CircularProgress, Stack } from "@mui/material";
 import InfoTiles from "./InfoTiles";
 import RecentCustomers from "./RecentCustomers";
 import RecentOrders from "./RecentOrders";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../constants/constants";
 
 function Dashboard() {
   const [customers, setcustomers] = useState();

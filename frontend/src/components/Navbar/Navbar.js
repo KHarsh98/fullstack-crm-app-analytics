@@ -11,10 +11,10 @@ function Navbar() {
       <img src="/menon-logo.png" alt="logo" />
       <Stack direction="row" spacing={2} alignItems="center">
         <Link to="dashboard">Dashboard</Link>
-        <Link to="Orders">Orders</Link>
-        <Link to="Customers">Customers</Link>
-        <Link to="Products">Products</Link>
-        <Link to="Reports">Reports</Link>
+        <Link to="orders">Orders</Link>
+        <Link to="customers">Customers</Link>
+        <Link to="products">Products</Link>
+        <Link to="reports">Reports</Link>
         <Button>
           {isLoggedIn ? (
             <Link to="Logout">Logout</Link>
