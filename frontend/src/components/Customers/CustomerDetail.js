@@ -13,33 +13,34 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Box,
+  CircularProgress,
 } from "@mui/material";
 import React, { useMemo } from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../../constants/constants";
-import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
-
 import "./CustomerDetail.scss";
-import { Delete, Edit } from "@mui/icons-material";
-import orderStatuses from "constants/ORDER_STATUS";
+import ORDER_STATUS from "constants/ORDER_STATUS";
 import DeleteCustomer from "components/Dialogs/DeleteCustomer";
 import CustomerForm from "components/Dialogs/CustomerForm";
+import OrderDatagrid from "components/Orders/OrderDatagrid";
 function CustomerDetail() {
   const { id } = useParams();
   const [customer, setcustomer] = useState();
+  const [orders, setOrders] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
-  const totalOrders = useMemo(() => customer?.orders.length, [customer, id]);
+  const totalOrders = useMemo(() => orders.length, [customer, id, orders]);
   const pendingOrders = useMemo(
-    () => customer?.orders.filter((order) => order.status === "pending").length,
-    [customer, id]
+    () =>
+      orders.filter((order) => order.status === ORDER_STATUS.PENDING).length,
+    [customer, id, orders]
   );
   const completedOrders = useMemo(
     () =>
-      customer?.orders.filter((order) => order.status === "delivered").length,
-    [customer, id]
+
+      orders.filter((order) => order.status === ORDER_STATUS.DELIVERED).length,
+    [customer, id, orders]
   );
 
   const openDeleteDialog = () => {
@@ -56,12 +57,21 @@ function CustomerDetail() {
       const customerDetails = await response.json();
       setcustomer(customerDetails);
     }
+    async function fetchCustomerOrders(customerId) {
+      const request = API_URL + `/customers/${customerId}/orders`;
+      const response = await fetch(request);
+      if (response.ok) {
+        let orderList = await response.json();
+        setOrders(orderList);
+      }
+    }
     fetchCustomerDetails(id);
+    fetchCustomerOrders(id);
   }, []);
 
   return (
     <>
-      {customer && (
+      {customer && orders && (
         <Stack m={3} spacing={6} alignItems="stretch">
           <Stack direction="row" justifyContent="space-between">
             <Stack component={Paper} sx={{ minWidth: 600 }} spacing={3} p={3}>
@@ -184,59 +194,8 @@ function CustomerDetail() {
               </CardContent>
             </Card>
           </Stack>
-          <Box sx={{ height: 400, width: "50%" }} component={Paper}>
-            <Stack flexDirection="row" style={{ height: "100%" }}>
-              <Box component="div" style={{ flexGrow: 1 }}>
-                <DataGrid
-                  columns={[
-                    {
-                      field: "order_number",
-                      minWidth: 200,
-                      headerName: "Order Number",
-                    },
-                    {
-                      field: "date_created",
-                      minWidth: 300,
-                      headerName: "Date of Order",
-                    },
-                    {
-                      field: "status",
-                      minWidth: 200,
-                      headerName: "Status",
-                      valueOptions: orderStatuses,
-                    },
-                    {
-                      field: "actions",
-                      type: "actions",
-                      headerName: "Actions",
-                      minWidth: 150,
-                      getActions: (params) => [
-                        <GridActionsCellItem
-                          icon={<Delete />}
-                          label="Delete"
-                          // onClick={deleteUser(params.id)}
-                        />,
-                        <GridActionsCellItem
-                          icon={<Edit />}
-                          label="Edit"
-                          // onClick={toggleAdmin(params.id)}
-                          showInMenu
-                        />,
-                      ],
-                    },
-                  ]}
-                  rows={[...customer.orders]}
-                  components={{
-                    Toolbar: GridToolbar,
-                  }}
-                  componentsProps={{
-                    toolbar: { showQuickFilter: true },
-                  }}
-                  rowsPerPageOptions={[100, 25, 50, 10]}
-                />
-              </Box>
-            </Stack>
-          </Box>
+          <OrderDatagrid orders={orders} />
+
           <DeleteCustomer
             open={deleteDialogOpen}
             setDeleteDialogOpen={setDeleteDialogOpen}
@@ -251,6 +210,9 @@ function CustomerDetail() {
           )}
         </Stack>
       )}
+      {!orders && !customer && (<Stack height='100vh' justifyContent="center" alignItems='center'>
+        <CircularProgress size={100} />
+      </Stack>)}
     </>
   );
 }

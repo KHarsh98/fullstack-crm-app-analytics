@@ -39,17 +39,20 @@ function Dashboard() {
         <>
           <InfoTiles orders={orders} />
           <Stack direction="row" spacing={5}>
-            <RecentCustomers customers={customers} />
+            <RecentCustomers customers={customers} orders={orders} />
             <RecentOrders orders={orders} />
           </Stack>
         </>
       )}
-      {(!orders || !customers) && (
-        <>
-          <CircularProgress />
-        </>
-      )}
-    </Stack>
+
+      {
+        (!orders || !customers) && (
+          <Stack height='100vh' justifyContent="center" alignItems='center'>
+            <CircularProgress size={100} />
+          </Stack>
+        )
+      }
+    </Stack >
   );
 }
 

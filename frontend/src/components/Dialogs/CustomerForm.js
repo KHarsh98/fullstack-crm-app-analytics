@@ -22,15 +22,15 @@ function CustomerForm(props) {
   } = useForm({
     defaultValues: props.customer
       ? {
-          name: props.customer.name,
-          email: props.customer.email,
-          phone: props.customer.phone,
-        }
+        name: props.customer.name,
+        email: props.customer.email,
+        phone: props.customer.phone,
+      }
       : {
-          name: "",
-          email: "",
-          phone: "",
-        },
+        name: "",
+        email: "",
+        phone: "",
+      },
   });
 
   const onSubmit = async (data) => {
@@ -139,13 +139,17 @@ function CustomerForm(props) {
               )}
               rules={{
                 required: true,
+                pattern: {
+                  value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                  message: "Please enter a valid phone number",
+                },
                 minLength: {
                   value: 10,
-                  message: "Phone Number must be at least 10 characters",
+                  message: "Phone number must be at least 10 characters",
                 },
                 maxLength: {
                   value: 13,
-                  message: "Phone Number must be at most 13 characters",
+                  message: "Phone number must be at most 13 characters",
                 },
               }}
               control={control}

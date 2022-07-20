@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CustomerForm from "components/Dialogs/CustomerForm";
 
-function RecentCustomers({ customers }) {
+function RecentCustomers({ customers, orders }) {
   const [createCustomerDialog, setcreateCustomerDialog] = useState(false);
   const handleOpenCustomerForm = () => {
     setcreateCustomerDialog(true);
@@ -52,7 +52,7 @@ function RecentCustomers({ customers }) {
                 >
                   <TableCell>{row.name}</TableCell>
                   <TableCell align="right">{row.phone}</TableCell>
-                  <TableCell align="right">{row.order_count}</TableCell>
+                  <TableCell align="right">{orders.filter(order => order.customer === row.id).length}</TableCell>
                   <TableCell>
                     <IconButton
                       color="primary"
