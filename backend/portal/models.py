@@ -33,9 +33,9 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
     )
     order_number = models.CharField(max_length=100)
-    customer = models.ForeignKey(
+    customerId = models.ForeignKey(
         Customer, related_name='orders', on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product)
+    productIds = models.ManyToManyField(Product)
     date_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS)
 
