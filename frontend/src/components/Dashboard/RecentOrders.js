@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import OrderForm from "components/Dialogs/OrderForm";
 
-function RecentOrders({ orders }) {
+function RecentOrders({ orders, customers, products }) {
   const [openOrderForm, setopenOrderForm] = useState(false);
   const handleOpenOrderForm = () => {
     setopenOrderForm(true);
@@ -80,6 +80,9 @@ function RecentOrders({ orders }) {
       {openOrderForm && (
         <OrderForm
           open={openOrderForm}
+          customers={customers}
+          orders={orders}
+          products={products}
           setopenOrderForm={setopenOrderForm}
         />
       )}
