@@ -6,14 +6,9 @@ export const OrderList = () => (
         <Datagrid>
             <TextField source="id" />
             <TextField source="order_number" />
-            <DateField source="date_created" />
+            <DateField source="date_of_order" />
             <TextField source="status" />
             <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
-            <ReferenceArrayField source='productIds' reference="products">
-                <SingleFieldList>
-                    <ChipField source="name" />
-                </SingleFieldList>
-            </ReferenceArrayField>
             <EditButton />
         </Datagrid>
     </List>
@@ -25,37 +20,40 @@ const OrderTitle = () => {
 }
 
 export const OrderEdit = () => (
-    <Edit title={<OrderTitle />}>
+    const fetchOrderLineItems = async () => {
+        const response = await fetch('get_order_line_items');
+        const lineItems = await response.json();
+        return lineItems;
+    }
+    useEffect(() => {
+
+
+}, [])
+
+
+    < Edit title = {< OrderTitle />}>
         <SimpleForm>
             <TextInput source="order_number" />
-            <DateInput source="date_created" />
             <SelectInput source="status" choices={[
                 { id: 'Pending', name: 'Pending' },
                 { id: 'Out for delivery', name: 'Out for delivery' },
                 { id: 'Delivered', name: 'Delivered' },
             ]} />
             <ReferenceInput source="customerId" reference="customers"><SelectInput optionText="name" /></ReferenceInput>
-            <ReferenceArrayInput source="productIds" reference="products">
-                <SelectArrayInput optionText="name" />
-            </ReferenceArrayInput>
         </SimpleForm>
-    </Edit>
+    </Edit >
 );
 
 export const OrderCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="order_number" />
-            <DateInput source="date_created" />
             <SelectInput source="status" choices={[
                 { id: 'Pending', name: 'Pending' },
                 { id: 'Out for delivery', name: 'Out for delivery' },
                 { id: 'Delivered', name: 'Delivered' },
             ]} />
             <ReferenceInput source="customerId" reference="customers"><SelectInput optionText="name" /></ReferenceInput>
-            <ReferenceArrayInput source="productIds" reference="products">
-                <SelectArrayInput optionText="name" />
-            </ReferenceArrayInput>
         </SimpleForm>
     </Create>
 );

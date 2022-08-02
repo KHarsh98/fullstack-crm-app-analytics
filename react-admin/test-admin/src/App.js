@@ -17,6 +17,8 @@ function App() {
       <Resource name='orders' list={OrderList} edit={OrderEdit} create={OrderCreate} icon={AttachMoneyIcon} />
       <Resource name='customers' list={CustomerList} edit={CustomerEdit} create={CustomerCreate} icon={GroupIcon} />
       <Resource name='products' list={ProductList} edit={ProductEdit} create={ProductCreate} icon={PrecisionManufacturingIcon} />
+      <Resource name='transactions' list={ListGuesser} />
+      <Resource name='product-detail-order' />
     </Admin>
   );
 }

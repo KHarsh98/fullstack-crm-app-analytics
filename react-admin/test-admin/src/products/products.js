@@ -1,12 +1,11 @@
-import React from 'react';
-import { Datagrid, DateField, EditButton, List, NumberField, TextField, DateInput, Edit, NumberInput, SimpleForm, TextInput, Create } from 'react-admin';
+import React, { useState } from 'react';
+import { Datagrid, DateField, EditButton, List, NumberField, TextField, DateInput, Edit, NumberInput, SimpleForm, TextInput, Create, SelectInput } from 'react-admin';
 
 export const ProductList = () => (
     <List>
         <Datagrid>
             <TextField source="id" />
             <TextField source="name" />
-            <NumberField source="price" />
             <TextField source="category" />
             <TextField source="description" />
             <DateField source="date_created" />
@@ -16,25 +15,29 @@ export const ProductList = () => (
 );
 
 export const ProductEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput source="name" />
-            <NumberInput source="price" />
-            <TextInput source="category" />
-            <TextInput source="description" />
-            <DateInput source="date_created" />
-        </SimpleForm>
-    </Edit>
+    const [lineItems, setlineItems] = useState();
+
+<Edit>
+    <SimpleForm>
+        <TextInput source="name" />
+        <SelectInput source="category" choices={[
+            { id: 'Head', name: 'Head' },
+            { id: 'Block', name: 'Block' },
+        ]} />
+        <TextInput source="description" />
+    </SimpleForm>
+</Edit>
 );
 
 export const ProductCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="name" />
-            <NumberInput source="price" />
-            <TextInput source="category" />
+            <SelectInput source="category" choices={[
+                { id: 'Head', name: 'Head' },
+                { id: 'Block', name: 'Block' },
+            ]} />
             <TextInput source="description" />
-            <DateInput source="date_created" />
         </SimpleForm>
     </Create>
 );
