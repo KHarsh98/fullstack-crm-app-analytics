@@ -1,9 +1,19 @@
 import React from 'react';
-import { Create, Datagrid, DateField, DateInput, Edit, EditButton, EmailField, List, SimpleForm, TextField, TextInput } from 'react-admin';
+import { Create, Datagrid, DateField, Edit, EditButton, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
 
+export const CustomerShow = () => (
+    <Show>
+        <SimpleShowLayout>
+            <TextField source="name" />
+            <TextField source="phone" />
+            <EmailField source="email" />
+            <DateField source="date_created" />
+        </SimpleShowLayout>
+    </Show>
+);
 export const CustomerList = () => (
     <List>
-        <Datagrid>
+        <Datagrid rowClick="show">
             <TextField source="id" />
             <TextField source="name" />
             <TextField source="phone" />
@@ -20,18 +30,16 @@ export const CustomerEdit = () => (
             <TextInput source="name" />
             <TextInput source="phone" />
             <TextInput source="email" />
-            <DateInput source="date_created" />
         </SimpleForm>
     </Edit>
 );
 
 export const CustomerCreate = () => (
-    <Create>
+    <Create redirect="list">
         <SimpleForm>
             <TextInput source="name" />
             <TextInput source="phone" />
             <TextInput source="email" />
-            <DateInput source="date_created" />
         </SimpleForm>
     </Create>
 );

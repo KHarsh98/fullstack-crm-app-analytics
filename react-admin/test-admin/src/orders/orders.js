@@ -1,9 +1,21 @@
 import React from 'react';
-import { Datagrid, DateField, List, ReferenceField, TextField, EditButton, ReferenceArrayField, ChipField, SingleFieldList, DateInput, Edit, ReferenceArrayInput, ReferenceInput, SelectInput, SimpleForm, TextInput, SelectArrayInput, Create, useRecordContext } from 'react-admin';
+import { Datagrid, DateField, List, ReferenceField, TextField, EditButton, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, Show, SimpleShowLayout, NumberField, ReferenceManyField, ReferenceArrayInput } from 'react-admin';
+
+export const OrderShow = () => (
+    <Show>
+        <SimpleShowLayout>
+            <TextField source="order_number" />
+            <DateField source="date_of_order" />
+            <TextField source="status" />
+            <TextField source="amount" />
+            <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
+        </SimpleShowLayout>
+    </Show>
+);
 
 export const OrderList = () => (
     <List>
-        <Datagrid>
+        <Datagrid rowClick="show">
             <TextField source="id" />
             <TextField source="order_number" />
             <DateField source="date_of_order" />
@@ -14,38 +26,8 @@ export const OrderList = () => (
     </List>
 );
 
-const OrderTitle = () => {
-    const record = useRecordContext();
-    return <span>Order {record ? `${record.order_number}` : ''}</span>
-}
-
-export const OrderEdit = () => (
-    const fetchOrderLineItems = async () => {
-        const response = await fetch('get_order_line_items');
-        const lineItems = await response.json();
-        return lineItems;
-    }
-    useEffect(() => {
-
-
-}, [])
-
-
-    < Edit title = {< OrderTitle />}>
-        <SimpleForm>
-            <TextInput source="order_number" />
-            <SelectInput source="status" choices={[
-                { id: 'Pending', name: 'Pending' },
-                { id: 'Out for delivery', name: 'Out for delivery' },
-                { id: 'Delivered', name: 'Delivered' },
-            ]} />
-            <ReferenceInput source="customerId" reference="customers"><SelectInput optionText="name" /></ReferenceInput>
-        </SimpleForm>
-    </Edit >
-);
-
 export const OrderCreate = () => (
-    <Create>
+    <Create redirect='list'>
         <SimpleForm>
             <TextInput source="order_number" />
             <SelectInput source="status" choices={[
@@ -57,3 +39,4 @@ export const OrderCreate = () => (
         </SimpleForm>
     </Create>
 );
+

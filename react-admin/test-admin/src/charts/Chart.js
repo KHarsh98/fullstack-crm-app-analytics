@@ -35,7 +35,8 @@ const Chart = () => {
                     <Tooltip />
                     <Area type="monotone" dataKey="Total" stroke="#8884d8" fillOpacity={1} fill="url(#total)" />
                 </AreaChart>
-            </ResponsiveContainer></div>
+            </ResponsiveContainer>
+        </div>
     )
 }
 
