@@ -1,7 +1,8 @@
 import React from 'react';
 import "./chart.scss";
-import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
 
+// TODO: replace with api
 const data = [
     { name: 'January', Total: 1200 },
     { name: 'February', Total: 2100 },
@@ -20,7 +21,7 @@ const data = [
 const Chart = () => {
     return (
         <div className="chart">
-            <div className="title">Yearly Sales</div>
+            <div className="title">30 Day Revenue History</div>
             <ResponsiveContainer width="100%" aspect={2 / 1}>
                 <AreaChart width={730} height={250} data={data}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -31,6 +32,7 @@ const Chart = () => {
                         </linearGradient>
                     </defs>
                     <XAxis dataKey="name" stroke='gray' />
+                    <YAxis dataKey="Total" stroke='gray' />
                     <CartesianGrid strokeDasharray="3 3" className='chartGrid' />
                     <Tooltip />
                     <Area type="monotone" dataKey="Total" stroke="#8884d8" fillOpacity={1} fill="url(#total)" />

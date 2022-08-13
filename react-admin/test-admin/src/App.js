@@ -11,13 +11,13 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import GroupIcon from '@mui/icons-material/Group';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import Home from './pages/home/Home';
+import Dashboard from 'pages/dashboard/Dashboard';
 
 const dataProvider = drfProvider("http://localhost:8000/api");
 
 function App() {
   return (
-    <Admin disableTelemetry dataProvider={dataProvider} dashboard={Home} >
+    <Admin disableTelemetry dataProvider={dataProvider} dashboard={Dashboard} >
       <Resource name='orders' show={OrderShow} list={OrderList} edit={OrderEdit} create={OrderCreate} icon={ListAltIcon} />
       <Resource name='customers' show={CustomerShow} list={CustomerList} edit={CustomerEdit} create={CustomerCreate} icon={GroupIcon} />
       <Resource name='products' show={ProductShow} list={ProductList} edit={ProductEdit} create={ProductCreate} icon={PrecisionManufacturingIcon} />

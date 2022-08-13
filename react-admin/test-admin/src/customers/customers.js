@@ -14,8 +14,7 @@ export const CustomerShow = () => (
 export const CustomerList = () => (
     <List>
         <Datagrid rowClick="show">
-            <TextField source="id" />
-            <TextField source="name" />
+            <TextField source="name" label='Customer' />
             <TextField source="phone" />
             <EmailField source="email" />
             <DateField source="date_created" />
