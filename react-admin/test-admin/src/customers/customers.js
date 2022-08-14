@@ -1,5 +1,5 @@
 import React from 'react';
-import { Create, Datagrid, DateField, Edit, EditButton, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, Datagrid, DateField, Edit, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
 
 export const CustomerShow = () => (
     <Show>
@@ -13,12 +13,11 @@ export const CustomerShow = () => (
 );
 export const CustomerList = () => (
     <List>
-        <Datagrid rowClick="show">
+        <Datagrid rowClick="edit">
             <TextField source="name" label='Customer' />
             <TextField source="phone" />
             <EmailField source="email" />
             <DateField source="date_created" />
-            <EditButton />
         </Datagrid>
     </List>
 );

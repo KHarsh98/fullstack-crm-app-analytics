@@ -1,26 +1,14 @@
 import React from 'react';
 import { Datagrid, DateField, EditButton, List, TextField, Edit, SimpleForm, TextInput, Create, SelectInput, Show, SimpleShowLayout } from 'react-admin';
 
-export const ProductShow = () => (
-    <Show>
-        <SimpleShowLayout>
-            <TextField source="name" />
-            <TextField source="category" />
-            <TextField source="description" />
-            <DateField source="date_created" />
-        </SimpleShowLayout>
-    </Show>
-);
 
 export const ProductList = () => (
     <List>
-        <Datagrid rowClick="show">
-            <TextField source="id" />
+        <Datagrid rowClick="edit">
             <TextField source="name" />
             <TextField source="category" />
             <TextField source="description" />
             <DateField source="date_created" />
-            <EditButton />
         </Datagrid>
     </List>
 );

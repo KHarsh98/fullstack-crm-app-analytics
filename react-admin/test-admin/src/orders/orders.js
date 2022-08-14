@@ -1,27 +1,17 @@
+import ColoredTextField from 'fields/ColoredTextField';
 import React from 'react';
-import { Datagrid, DateField, List, ReferenceField, TextField, EditButton, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, Show, SimpleShowLayout, NumberField, ReferenceManyField, ReferenceArrayInput } from 'react-admin';
-
-export const OrderShow = () => (
-    <Show>
-        <SimpleShowLayout>
-            <TextField source="order_number" />
-            <DateField source="date_of_order" />
-            <TextField source="status" />
-            <TextField source="amount" />
-            <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
-        </SimpleShowLayout>
-    </Show>
-);
+import { Datagrid, DateField, List, ReferenceField, TextField, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, NumberField } from 'react-admin';
 
 export const OrderList = () => (
     <List>
-        <Datagrid rowClick="show">
-            <TextField source="id" />
-            <TextField source="order_number" />
+        <Datagrid rowClick="edit">
             <DateField source="date_of_order" />
-            <TextField source="status" />
+            <TextField source="order_number" />
             <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
-            <EditButton />
+            <ColoredTextField source='status' />
+            <NumberField source="amount" label='Total (&#x20B9;)' sx={{
+                fontWeight: 'bold',
+            }} />
         </Datagrid>
     </List>
 );

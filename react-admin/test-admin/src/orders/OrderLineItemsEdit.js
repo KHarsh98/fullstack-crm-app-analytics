@@ -1,14 +1,19 @@
 import { Edit, NumberInput, ReferenceInput, SelectInput, SimpleForm } from 'react-admin';
 import React from 'react';
-
-const redirect = (basePath, id, data) => `orders/${data.id}`
+import "./orderlineitemsedit.scss";
 
 const OrderLineItemsEdit = () => (
-    <Edit redirect={redirect}>
+    <Edit>
         <SimpleForm>
-            <ReferenceInput source="productId" reference="products"><SelectInput optionText="name" /></ReferenceInput>
-            <ReferenceInput source="orderId" reference="orders"><SelectInput optionText="order_number" /></ReferenceInput>
-            <NumberInput source="qty" />
+            <div className="order-items">
+                <div className='product'>
+                    <ReferenceInput source="productId" reference="products"><SelectInput optionText="name" fullWidth /></ReferenceInput>
+                </div>
+                <div className='qty'>
+                    <NumberInput source="qty" fullWidth />
+                </div>
+            </div>
+
         </SimpleForm>
     </Edit>
 );
