@@ -17,7 +17,7 @@ export const OrderList = () => (
 );
 
 export const OrderCreate = () => (
-    <Create redirect='list'>
+    <Create>
         <SimpleForm>
             <TextInput source="order_number" />
             <SelectInput source="status" choices={[
