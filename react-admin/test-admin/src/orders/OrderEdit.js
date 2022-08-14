@@ -1,5 +1,5 @@
 import React from 'react'
-import { Edit, useRecordContext, SimpleForm, TextInput, SelectInput, ReferenceInput, ReferenceManyField, NumberField, Datagrid, TextField, EditButton, ReferenceField, Show, SimpleShowLayout } from 'react-admin';
+import { Edit, useRecordContext, SimpleForm, TextInput, SelectInput, ReferenceInput, ReferenceManyField, NumberField, Datagrid, TextField, EditButton, ReferenceField, Show, SimpleShowLayout, NumberInput } from 'react-admin';
 import AddNewOrderItem from './AddNewOrderItem';
 import "./orderEdit.scss";
 
@@ -23,9 +23,17 @@ const OrderEdit = () => {
                     { id: 'Out for delivery', name: 'Out for delivery' },
                     { id: 'Delivered', name: 'Delivered' },
                 ]} />
+                <SelectInput source="status_payment" choices={[
+                    { id: 'Pending', name: 'Pending' },
+                    { id: 'Payed', name: 'Payed' },
+                    { id: 'Cancelled', name: 'Cancelled' },
+
+                ]} />
                 <ReferenceInput source="customerId" reference="customers">
                     <SelectInput optionText="name" fullWidth />
                 </ReferenceInput>
+                <NumberInput source="amount" label="Total" fullWidth />
+
                 <div className='itenary'>
                     <h3 className='title'>Itenary</h3>
                     <div className='datagrid'>

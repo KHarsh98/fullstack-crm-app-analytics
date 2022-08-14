@@ -9,6 +9,7 @@ export const OrderList = () => (
             <TextField source="order_number" />
             <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
             <ColoredTextField source='status' />
+            <ColoredTextField source='status_payment' label="Payment" />
             <NumberField source="amount" label='Total (&#x20B9;)' sx={{
                 fontWeight: 'bold',
             }} />

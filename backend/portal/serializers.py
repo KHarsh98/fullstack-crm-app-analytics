@@ -10,9 +10,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class CustomerSerializer(serializers.ModelSerializer):
 
+    count_total_orders = serializers.SerializerMethodField()
+    count_total_spent = serializers.SerializerMethodField()
+
     class Meta:
         model = Customer
         fields = '__all__'
+
+    def get_count_total_orders(self, obj):
+        return obj.orders.count()
+
+    def get_count_total_spent(self, obj):
+        orders = obj.orders.filter(status_payment='Payed')
+        return sum([order.amount for order in orders])
 
 
 class ProductSerializer(serializers.ModelSerializer):

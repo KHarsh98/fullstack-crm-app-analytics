@@ -29,3 +29,5 @@ Pipfile
 backend/portal/migrations/*
 
 erd.*
+
+static/

@@ -3,6 +3,10 @@ from django.db import models
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
+    profile = models.ImageField(null=True, blank=True)
+    company = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
     phone = models.CharField(max_length=12)
     email = models.EmailField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -31,11 +35,17 @@ class Order(models.Model):
         ('Out for delivery', 'Out for delivery'),
         ('Delivered', 'Delivered'),
     )
+    STATUS_PAYMENT = (
+        ('Pending', 'Pending'),
+        ('Payed', 'Payed'),
+        ('Cancelled', 'Cancelled'),
+    )
     order_number = models.CharField(max_length=100)
     customerId = models.ForeignKey(
         Customer, related_name='orders', on_delete=models.CASCADE)
     date_of_order = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS)
+    status_payment = models.CharField(max_length=50, choices=STATUS_PAYMENT)
     amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
@@ -63,7 +73,7 @@ class Transaction(models.Model):
     )
     date_of_transaction = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS)
-    orderId = models.ForeignKey(Order, on_delete=models.CASCADE)
+    orderId = models.OneToOneField(Order, on_delete=models.CASCADE)
 
 
 class Target(models.Model):

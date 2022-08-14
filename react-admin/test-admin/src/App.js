@@ -22,7 +22,6 @@ function App() {
       <Resource name='orders' list={OrderList} edit={OrderEdit} create={OrderCreate} icon={ListAltIcon} />
       <Resource name='customers' list={CustomerList} edit={CustomerEdit} create={CustomerCreate} icon={GroupIcon} />
       <Resource name='products' list={ProductList} edit={ProductEdit} create={ProductCreate} icon={PrecisionManufacturingIcon} />
-      <Resource name='transactions' list={TransactionList} edit={TransactionEdit} create={TransactionCreate} icon={AttachMoneyIcon} />
       <Resource name='product-quantity' edit={OrderLineItemsEdit} create={OrderItemsCreate} />
     </Admin>
   );
