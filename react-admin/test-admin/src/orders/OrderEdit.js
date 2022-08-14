@@ -23,7 +23,7 @@ const OrderEdit = () => {
                     { id: 'Out for delivery', name: 'Out for delivery' },
                     { id: 'Delivered', name: 'Delivered' },
                 ]} />
-                <SelectInput source="status_payment" choices={[
+                <SelectInput fullWidth source="status_payment" choices={[
                     { id: 'Pending', name: 'Pending' },
                     { id: 'Payed', name: 'Payed' },
                     { id: 'Cancelled', name: 'Cancelled' },

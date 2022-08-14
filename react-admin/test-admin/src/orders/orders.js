@@ -20,13 +20,21 @@ export const OrderList = () => (
 export const OrderCreate = () => (
     <Create>
         <SimpleForm>
-            <TextInput source="order_number" />
-            <SelectInput source="status" choices={[
+            <TextInput source="order_number" fullWidth />
+            <SelectInput fullWidth source="status" choices={[
                 { id: 'Pending', name: 'Pending' },
                 { id: 'Out for delivery', name: 'Out for delivery' },
                 { id: 'Delivered', name: 'Delivered' },
             ]} />
-            <ReferenceInput source="customerId" reference="customers"><SelectInput optionText="name" /></ReferenceInput>
+            <SelectInput fullWidth source="status_payment" choices={[
+                { id: 'Pending', name: 'Pending' },
+                { id: 'Payed', name: 'Payed' },
+                { id: 'Cancelled', name: 'Cancelled' },
+
+            ]} />
+            <ReferenceInput source="customerId" reference="customers">
+                <SelectInput optionText="name" fullWidth />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );
