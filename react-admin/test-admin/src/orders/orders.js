@@ -1,9 +1,35 @@
 import ColoredTextField from 'fields/ColoredTextField';
 import React from 'react';
-import { Datagrid, DateField, List, ReferenceField, TextField, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, NumberField } from 'react-admin';
+import { Datagrid, DateField, List, ReferenceField, TextField, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, NumberField, AutocompleteInput, DateInput, RadioButtonGroupInput } from 'react-admin';
+
+const statusChoices =
+    [
+        { id: 'Pending', name: 'Pending' },
+        { id: 'Out for delivery', name: 'Out for delivery' },
+        { id: 'Delivered', name: 'Delivered' },
+    ]
+const statusPaymentChoices = [
+    { id: 'Pending', name: 'Pending' },
+    { id: 'Payed', name: 'Payed' },
+    { id: 'Cancelled', name: 'Cancelled' },
+
+]
+const orderFilters = [
+    <ReferenceInput source="customerId" reference='customers' label='Customer' alwaysOn >
+        <AutocompleteInput optionText="name" sx={{
+            width: 300
+        }} />
+    </ReferenceInput>,
+    <TextInput source="order_number" label='Order Number' />,
+    <DateInput source='date_of_order' label='Date of Order' />,
+    <SelectInput source='status' choices={statusChoices} alwaysOn />,
+    <SelectInput source='status_payment' choices={statusPaymentChoices} />
+]
 
 export const OrderList = () => (
-    <List>
+    <List filters={orderFilters} sx={{
+        padding: 2
+    }}>
         <Datagrid rowClick="edit">
             <DateField source="date_of_order" />
             <TextField source="order_number" />
@@ -21,17 +47,8 @@ export const OrderCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="order_number" fullWidth />
-            <SelectInput fullWidth source="status" choices={[
-                { id: 'Pending', name: 'Pending' },
-                { id: 'Out for delivery', name: 'Out for delivery' },
-                { id: 'Delivered', name: 'Delivered' },
-            ]} />
-            <SelectInput fullWidth source="status_payment" choices={[
-                { id: 'Pending', name: 'Pending' },
-                { id: 'Payed', name: 'Payed' },
-                { id: 'Cancelled', name: 'Cancelled' },
-
-            ]} />
+            <SelectInput fullWidth source="status" choices={statusChoices} />
+            <SelectInput fullWidth source="status_payment" choices={statusPaymentChoices} />
             <ReferenceInput source="customerId" reference="customers">
                 <SelectInput optionText="name" fullWidth />
             </ReferenceInput>

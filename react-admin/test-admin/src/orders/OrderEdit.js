@@ -1,5 +1,5 @@
 import React from 'react'
-import { Edit, useRecordContext, SimpleForm, TextInput, SelectInput, ReferenceInput, ReferenceManyField, NumberField, Datagrid, TextField, EditButton, ReferenceField, Show, SimpleShowLayout, NumberInput } from 'react-admin';
+import { Edit, useRecordContext, SimpleForm, TextInput, SelectInput, ReferenceInput, ReferenceManyField, NumberField, Datagrid, TextField, EditButton, ReferenceField, Show, SimpleShowLayout, NumberInput, DateInput } from 'react-admin';
 import AddNewOrderItem from './AddNewOrderItem';
 import "./orderEdit.scss";
 
@@ -32,6 +32,7 @@ const OrderEdit = () => {
                 <ReferenceInput source="customerId" reference="customers">
                     <SelectInput optionText="name" fullWidth />
                 </ReferenceInput>
+                <DateInput source='date_of_order' fullWidth />
                 <NumberInput source="amount" label="Total" fullWidth />
 
                 <div className='itenary'>

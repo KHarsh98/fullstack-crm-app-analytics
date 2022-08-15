@@ -43,7 +43,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=100)
     customerId = models.ForeignKey(
         Customer, related_name='orders', on_delete=models.CASCADE)
-    date_of_order = models.DateTimeField(auto_now_add=True)
+    date_of_order = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS)
     status_payment = models.CharField(max_length=50, choices=STATUS_PAYMENT)
     amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)

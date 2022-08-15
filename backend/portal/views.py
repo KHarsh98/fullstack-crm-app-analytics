@@ -11,8 +11,9 @@ from rest_framework.decorators import action
 class CustomerView(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = '__all__'
+    ordering_fields = ['company', 'location']
+    filterset_fields = ['name', 'company',
+                        'location', 'email', 'phone', 'position']
 
     @action(detail=False, methods=['GET'])
     def get_total_customers(self, request, pk=None):
@@ -23,8 +24,14 @@ class CustomerView(viewsets.ModelViewSet):
 class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    filter_backends = [filters.OrderingFilter]
     ordering_fields = '__all__'
+    filterset_fields = [
+        'order_number',
+        'customerId',
+        'date_of_order',
+        'status',
+        'status_payment',
+    ]
 
     @action(detail=False, methods=['GET'])
     def get_total_orders(self, request, pk=None):
@@ -45,14 +52,13 @@ class OrderView(viewsets.ModelViewSet):
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = '__all__'
+    ordering_fields = ['name', 'category']
+    filterset_fields = ['name', 'category']
 
 
 class TransactionView(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
-    filter_backends = [filters.OrderingFilter]
     ordering_fields = '__all__'
 
 
