@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from rest_framework.decorators import action
+import datetime
 
 
 class CustomerView(viewsets.ModelViewSet):
@@ -47,6 +48,40 @@ class OrderView(viewsets.ModelViewSet):
     def get_pending_orders(self, request, pk=None):
         pendingTotal = Order.objects.filter(status='Pending').count()
         return Response({'total': pendingTotal})
+
+    @action(detail=False, methods=['GET'])
+    def get_monthly_revenue(self, request, pk=None):
+        date_today = datetime.date.today()
+        first_date = datetime.date(date_today.year, date_today.month, 1)
+        orders = Order.objects.filter(status_payment='Payed', date_of_order__range=[
+                                      first_date, date_today])
+        monthly_revenue = sum([order.amount for order in orders])
+        return Response({'total': monthly_revenue})
+
+    @action(detail=False, methods=['GET'])
+    def get_monthly_revenue_history(self, request, pk=None):
+        date_today = datetime.date.today()
+
+        if date_today.month == 1:
+            start_date = datetime.date(date_today.year-1, 12, date_today.day)
+        else:
+            start_date = datetime.date(
+                date_today.year, date_today.month-1, date_today.day)
+
+        orders = Order.objects.filter(status_payment='Payed', date_of_order__range=[
+                                      start_date, date_today])
+
+        delta = date_today - start_date
+        revenue_history = {}
+        for i in range(delta.days+1):
+            date_now = start_date+datetime.timedelta(days=i)
+            orders_date_now = orders.filter(date_of_order=date_now)
+            if orders_date_now:
+                revenue_history[date_now.strftime('%d-%m-%Y')] = sum(
+                    [order.amount for order in orders_date_now])
+            else:
+                revenue_history[date_now.strftime('%d-%m-%Y')] = 0
+        return Response({'revenue_history': revenue_history})
 
 
 class ProductView(viewsets.ModelViewSet):
