@@ -35,7 +35,7 @@ export const CustomerList = () => (
 );
 
 export const CustomerEdit = () => (
-    <Edit>
+    <Edit title={<CustomerProfilePic source='profile' />}>
         <SimpleForm>
             <Stack direction='row' width="100%" gap={10}>
                 <Stack flex={1}>

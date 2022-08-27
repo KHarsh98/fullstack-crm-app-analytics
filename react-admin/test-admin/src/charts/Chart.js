@@ -1,29 +1,27 @@
 import React from 'react';
 import "./chart.scss";
 import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
+import API_BASE from 'constants/API_BASE';
+import { useQuery } from 'react-query';
+import { Loading, Error } from 'react-admin';
 
-// TODO: replace with api
-const data = [
-    { name: 'January', Total: 1200 },
-    { name: 'February', Total: 2100 },
-    { name: 'March', Total: 3200 },
-    { name: 'April', Total: 1300 },
-    { name: 'May', Total: 800 },
-    { name: 'June', Total: 1100 },
-    { name: 'July', Total: 2000 },
-    { name: 'August', Total: 1800 },
-    { name: 'September', Total: 1900 },
-    { name: 'October', Total: 1500 },
-    { name: 'November', Total: 3800 },
-    { name: 'December', Total: 2200 },
-];
+const fetchMonthyRevenue = () => {
+    let url = API_BASE + '/orders/get_monthly_revenue_history';
+    return fetch(url).then(res => res.json().then(data => data));
+}
 
 const Chart = () => {
+    const { isLoading, error, data } = useQuery('monthly-revenue', fetchMonthyRevenue);
+
+    if (isLoading) return <Loading />;
+    if (error) return <Error />;
+
     return (
+
         <div className="chart">
             <div className="title">30 Day Revenue History</div>
             <ResponsiveContainer width="100%" aspect={2 / 1}>
-                <AreaChart width={730} height={250} data={data}
+                <AreaChart width={730} height={250} data={data.revenue_history}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <defs>
                         <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
@@ -31,11 +29,11 @@ const Chart = () => {
                             <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <XAxis dataKey="name" stroke='gray' />
-                    <YAxis dataKey="Total" stroke='gray' />
+                    <XAxis dataKey="date" stroke='gray' />
+                    <YAxis dataKey="total" stroke='gray' />
                     <CartesianGrid strokeDasharray="3 3" className='chartGrid' />
                     <Tooltip />
-                    <Area type="monotone" dataKey="Total" stroke="#8884d8" fillOpacity={1} fill="url(#total)" />
+                    <Area type="monotone" dataKey="total" stroke="#8884d8" fillOpacity={1} fill="url(#total)" />
                 </AreaChart>
             </ResponsiveContainer>
         </div>

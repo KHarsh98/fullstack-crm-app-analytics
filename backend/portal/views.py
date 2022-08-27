@@ -12,13 +12,20 @@ import datetime
 class CustomerView(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
-    ordering_fields = ['company', 'location']
+    ordering_fields = ['company', 'location', 'date_created']
     filterset_fields = ['name', 'company',
                         'location', 'email', 'phone', 'position']
 
     @action(detail=False, methods=['GET'])
     def get_total_customers(self, request, pk=None):
         total = Customer.objects.all().count()
+        return Response({'total': total})
+
+    @action(detail=False, methods=['GET'])
+    def get_new_customers(self, request, pk=None):
+        date_today = datetime.date.today()
+        first_date = datetime.date(date_today.year, date_today.month-1, date_today.day)
+        total = Customer.objects.filter(date_created__range=[first_date, date_today]).count()
         return Response({'total': total})
 
 
@@ -37,6 +44,11 @@ class OrderView(viewsets.ModelViewSet):
     @action(detail=False, methods=['GET'])
     def get_total_orders(self, request, pk=None):
         total = Order.objects.all().count()
+        return Response({'total': total})
+
+    @action(detail=False, methods=['GET'])
+    def get_out_orders(self, request, pk=None):
+        total = Order.objects.filter(status='Out for delivery').count()
         return Response({'total': total})
 
     @action(detail=False, methods=['GET'])
@@ -72,15 +84,19 @@ class OrderView(viewsets.ModelViewSet):
                                       start_date, date_today])
 
         delta = date_today - start_date
-        revenue_history = {}
+        revenue_history = []
         for i in range(delta.days+1):
             date_now = start_date+datetime.timedelta(days=i)
             orders_date_now = orders.filter(date_of_order=date_now)
+            revenue_history_item = {}
+            revenue_history_item['date'] = date_now.strftime('%d-%m-%Y')
+
             if orders_date_now:
-                revenue_history[date_now.strftime('%d-%m-%Y')] = sum(
-                    [order.amount for order in orders_date_now])
+                revenue_history_item['total'] = sum([order.amount for order in orders_date_now])
             else:
-                revenue_history[date_now.strftime('%d-%m-%Y')] = 0
+                revenue_history_item['total'] = 0
+            revenue_history.append(revenue_history_item)
+
         return Response({'revenue_history': revenue_history})
 
 

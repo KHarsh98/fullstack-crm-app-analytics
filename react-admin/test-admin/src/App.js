@@ -6,8 +6,6 @@ import OrderEdit from './orders/OrderEdit';
 import OrderLineItemsEdit from './orders/OrderLineItemsEdit';
 import { CustomerCreate, CustomerEdit, CustomerList } from './customers/customers';
 import { ProductCreate, ProductEdit, ProductList } from './products/products';
-import { TransactionEdit, TransactionList, TransactionCreate } from './transactions/transactions';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import GroupIcon from '@mui/icons-material/Group';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import ListAltIcon from '@mui/icons-material/ListAlt';

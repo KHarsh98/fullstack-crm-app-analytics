@@ -4,46 +4,66 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { useQuery } from 'react-query';
+import { Loading, Error } from 'react-admin';
+import API_BASE from "constants/API_BASE";
 
 const Widget = ({ type }) => {
 
     let data;
     //TODO: add links to each data item
-    //TODO: add amount and API integration
     switch (type) {
         case 'new-orders':
             data = {
                 heading: 'New Orders',
                 isMoney: false,
                 icon: <ShoppingCartIcon fontSize="large" />,
+                endpoint: '/orders/get_pending_orders'
             }
             break;
         case 'new-customers':
             data = {
                 heading: 'New Customers',
                 isMoney: false,
-                icon: <PersonAddIcon fontSize="large" />
+                icon: <PersonAddIcon fontSize="large" />,
+                endpoint: '/customers/get_new_customers'
             }
             break;
         case 'out-for-delivery':
             data = {
                 heading: 'Out for Delivery',
                 isMoney: false,
-                icon: <LocalShippingIcon fontSize='large' />
+                icon: <LocalShippingIcon fontSize='large' />,
+                endpoint: '/orders/get_out_orders'
             }
             break;
         case 'monthly-revenue':
             data = {
                 heading: 'Monthly Revenue',
                 isMoney: true,
-                icon: <AttachMoneyIcon fontSize="large" />
+                icon: <AttachMoneyIcon fontSize="large" />,
+                endpoint: '/orders/get_monthly_revenue'
             }
             break;
         default:
             break;
 
-
     }
+    const url = API_BASE + data.endpoint;
+    console.log('URL', url);
+
+    const { isLoading, error, data: response } = useQuery(`widget-${type}`, () =>
+        fetch(url).then((response) => {
+            const res = response.json();
+            return res;
+        })
+    );
+    if (isLoading) return <Loading />;
+    if (error) return <Error />;
+
+    const amount = response.total
+
+
     return (
         //TODO: Add links to each item
         <div className='widget'>
@@ -54,7 +74,7 @@ const Widget = ({ type }) => {
             </div>
             <div className='right'>
                 <h3 className='title'>{data.heading}</h3>
-                <span className='counter'>{data.isMoney && <span>&#x20B9;</span>}100</span>
+                <span className='counter'>{data.isMoney && <span>&#x20B9;</span>}{amount}</span>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Datagrid, DateField, List, TextField, Edit, SimpleForm, TextInput, Create, SelectInput } from 'react-admin';
+import { Datagrid, DateField, List, TextField, Edit, SimpleForm, TextInput, Create, SelectInput, useRecordContext } from 'react-admin';
 
 const categoryChoices = [
     { id: 'Head', name: 'Head' },
@@ -11,6 +11,12 @@ const productFilters = [
     <SelectInput source='category' choices={categoryChoices} />
 
 ];
+
+const ProductTitle = () => {
+    const record = useRecordContext();
+
+    return <span>{record ? record.name : ''}</span>
+}
 
 export const ProductList = () => (
     <List filters={productFilters} sx={{
@@ -26,7 +32,7 @@ export const ProductList = () => (
 );
 
 export const ProductEdit = () => (
-    <Edit>
+    <Edit title={<ProductTitle />}>
         <SimpleForm>
             <TextInput source="name" />
             <SelectInput source="category" choices={categoryChoices} />
