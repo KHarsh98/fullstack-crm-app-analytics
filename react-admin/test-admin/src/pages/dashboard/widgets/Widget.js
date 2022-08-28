@@ -65,7 +65,6 @@ const Widget = ({ type }) => {
 
 
     return (
-        //TODO: Add links to each item
         <div className='widget'>
             <div className='left'>
                 <div className='icon'>

@@ -3,10 +3,15 @@ from .models import *
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
+    num_items = serializers.SerializerMethodField()
     class Meta:
         model = Order
         fields = '__all__'
 
+    def get_num_items(self, obj):
+        products = obj.productquantity_set.all()
+        return sum([product.qty for product in products])
 
 class CustomerSerializer(serializers.ModelSerializer):
 

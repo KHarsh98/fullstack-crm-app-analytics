@@ -13,7 +13,6 @@ const NewCustomersCard = () => {
         sort: { field: 'date_created', order: 'DESC' },
     });
 
-    console.log(data);
 
 
     if (isLoading) return <Loading />;
