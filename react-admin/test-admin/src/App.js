@@ -1,4 +1,4 @@
-import drfProvider from 'ra-data-drf';
+// import drfProvider from 'ra-data-drf';
 import { Admin, Resource } from 'react-admin';
 import React from 'react';
 import { OrderCreate, OrderList } from './orders/orders';
@@ -11,12 +11,16 @@ import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturi
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import Dashboard from 'pages/dashboard/Dashboard';
 import OrderItemsCreate from 'orders/OrderItemsCreate';
+import drfProvider, { jwtTokenAuthProvider, fetchJsonWithAuthJWTToken } from 'ra-data-django-rest-framework';
 
-const dataProvider = drfProvider("http://localhost:8000/api");
+const authProvider = jwtTokenAuthProvider({
+  obtainAuthTokenUrl: "http://localhost:8000/api/token/"
+});
+const dataProvider = drfProvider("http://localhost:8000/api", fetchJsonWithAuthJWTToken);
 
 function App() {
   return (
-    <Admin disableTelemetry dataProvider={dataProvider} dashboard={Dashboard} >
+    <Admin disableTelemetry dataProvider={dataProvider} authProvider={authProvider} dashboard={Dashboard} >
       <Resource name='orders' list={OrderList} edit={OrderEdit} create={OrderCreate} icon={ListAltIcon} />
       <Resource name='customers' list={CustomerList} edit={CustomerEdit} create={CustomerCreate} icon={GroupIcon} />
       <Resource name='products' list={ProductList} edit={ProductEdit} create={ProductCreate} icon={PrecisionManufacturingIcon} />

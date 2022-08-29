@@ -52,8 +52,13 @@ const Widget = ({ type }) => {
     const url = API_BASE + data.endpoint;
     console.log('URL', url);
 
+    const token = localStorage.getItem('access');
     const { isLoading, error, data: response } = useQuery(`widget-${type}`, () =>
-        fetch(url).then((response) => {
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
             const res = response.json();
             return res;
         })

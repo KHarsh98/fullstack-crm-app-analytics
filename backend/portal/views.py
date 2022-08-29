@@ -7,6 +7,7 @@ from rest_framework import status
 from .models import *
 from rest_framework.decorators import action
 import datetime
+from django.contrib.auth import get_user_model
 
 
 class CustomerView(viewsets.ModelViewSet):
@@ -125,3 +126,7 @@ class ProductQuantityView(viewsets.ModelViewSet):
     queryset = ProductQuantity.objects.all()
     filterset_fields = ['orderId']
     ordering_fields = '__all__'
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = get_user_model().objects.all()

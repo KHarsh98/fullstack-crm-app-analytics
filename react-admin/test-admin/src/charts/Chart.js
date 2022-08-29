@@ -7,7 +7,12 @@ import { Loading, Error } from 'react-admin';
 
 const fetchMonthyRevenue = () => {
     let url = API_BASE + '/orders/get_monthly_revenue_history';
-    return fetch(url).then(res => res.json().then(data => data));
+    const token = localStorage.getItem('access');
+    return fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => res.json().then(data => data));
 }
 
 const Chart = () => {

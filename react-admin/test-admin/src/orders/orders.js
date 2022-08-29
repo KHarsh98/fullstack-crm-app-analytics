@@ -33,7 +33,7 @@ export const OrderList = () => (
         <Datagrid rowClick="edit">
             <DateField source="date_of_order" />
             <TextField source="order_number" />
-            <NumberField source='num_items' label='No. of items' />
+            <NumberField source='num_items' label='No. of items' sortable={false} />
             <ReferenceField source="customerId" reference="customers"><TextField source="name" /></ReferenceField>
             <ColoredTextField source='status' />
             <ColoredTextField source='status_payment' label="Payment" />
