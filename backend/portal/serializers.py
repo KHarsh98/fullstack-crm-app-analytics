@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
+from drf_extra_fields.fields import Base64ImageField
+
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -18,6 +20,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     count_total_orders = serializers.SerializerMethodField()
     count_total_spent = serializers.SerializerMethodField()
+    profile = Base64ImageField(required=False)
+
 
     class Meta:
         model = Customer

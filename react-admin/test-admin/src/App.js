@@ -17,6 +17,7 @@ const authProvider = jwtTokenAuthProvider({
   obtainAuthTokenUrl: "http://localhost:8000/api/token/"
 });
 const dataProvider = drfProvider("http://localhost:8000/api", fetchJsonWithAuthJWTToken);
+console.log(dataProvider);
 
 function App() {
   return (

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 const NewCustomersCard = () => {
-    const { data, total, isLoading, isError, error } = useGetList('customers', {
+    const { data, isLoading, isError, error } = useGetList('customers', {
         pagination: { page: 1, perPage: 10 },
         sort: { field: 'date_created', order: 'DESC' },
     });

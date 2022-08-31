@@ -4,8 +4,12 @@ import "./dashboard.scss";
 import NewCustomersCard from './new-customers/NewCustomersCard';
 import PendingOrders from './orders/PendingOrders';
 import Widget from './widgets/Widget';
+import { useAuthenticated } from 'react-admin';
+
 
 const Dashboard = () => {
+    useAuthenticated();
+
     return (
         <div className='dashboard'>
             <div className='widgets'>

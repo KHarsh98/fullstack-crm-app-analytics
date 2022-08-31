@@ -11,7 +11,6 @@ import API_BASE from "constants/API_BASE";
 const Widget = ({ type }) => {
 
     let data;
-    //TODO: add links to each data item
     switch (type) {
         case 'new-orders':
             data = {

@@ -1,6 +1,6 @@
 import ColoredTextField from 'fields/ColoredTextField';
 import React from 'react';
-import { Datagrid, DateField, List, ReferenceField, TextField, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, NumberField, AutocompleteInput, DateInput, RadioButtonGroupInput } from 'react-admin';
+import { Datagrid, DateField, List, ReferenceField, TextField, ReferenceInput, SelectInput, SimpleForm, TextInput, Create, NumberField, AutocompleteInput, DateInput } from 'react-admin';
 
 const statusChoices =
     [
@@ -51,7 +51,7 @@ export const OrderCreate = () => (
             <SelectInput fullWidth source="status" choices={statusChoices} />
             <SelectInput fullWidth source="status_payment" choices={statusPaymentChoices} />
             <ReferenceInput source="customerId" reference="customers">
-                <SelectInput optionText="name" fullWidth />
+                <AutocompleteInput optionText="name" fullWidth />
             </ReferenceInput>
         </SimpleForm>
     </Create>

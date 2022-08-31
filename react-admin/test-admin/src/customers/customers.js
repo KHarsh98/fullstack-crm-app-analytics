@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack } from '@mui/material';
-import { Create, Datagrid, Edit, EmailField, ImageInput, List, SimpleForm, TextField, TextInput, WrapperField } from 'react-admin';
+import { Create, Datagrid, Edit, EmailField, ImageField, ImageInput, List, SimpleForm, TextField, TextInput, WrapperField } from 'react-admin';
 import CustomerProfilePic from 'fields/CustomerProfilePic';
 
 const customerFilters = [
@@ -39,7 +39,9 @@ export const CustomerEdit = () => (
         <SimpleForm>
             <Stack direction='row' width="100%" gap={10}>
                 <Stack flex={1}>
-                    <ImageInput source="profile" fullWidth />
+                    <ImageInput source="profile" fullWidth accept="image/*">
+                        <ImageField source="src" title='Profile Photo' />
+                    </ImageInput>
                     <TextInput source="name" fullWidth />
                     <TextInput source="phone" fullWidth />
                     <TextInput source="email" fullWidth />
