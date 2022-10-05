@@ -3,11 +3,12 @@ import { CircularProgress, Stack } from "@mui/material";
 import InfoTiles from "./InfoTiles";
 import RecentCustomers from "./RecentCustomers";
 import RecentOrders from "./RecentOrders";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../constants/constants";
 
 function Dashboard() {
   const [customers, setcustomers] = useState();
   const [orders, setorders] = useState();
+  const [products, setProducts] = useState();
 
   useEffect(() => {
     async function fetchCustomers() {
@@ -30,27 +31,37 @@ function Dashboard() {
       });
       setorders(orders);
     }
+    async function fetchProducts() {
+      const request = API_URL + "/products";
+      const response = await fetch(request);
+      const products = await response.json();
+      setProducts(products);
+
+    }
     fetchCustomers();
     fetchOrders();
+    fetchProducts();
   }, []);
   return (
     <Stack m={3} spacing={6} alignItems="stretch">
-      {orders && customers && (
+      {orders && customers && products && (
         <>
-          {" "}
           <InfoTiles orders={orders} />
           <Stack direction="row" spacing={5}>
-            <RecentCustomers customers={customers} />
-            <RecentOrders orders={orders} />
+            <RecentCustomers customers={customers} orders={orders} />
+            <RecentOrders customers={customers} orders={orders} products={products} />
           </Stack>
         </>
       )}
-      {(!orders || !customers) && (
-        <>
-          <CircularProgress />
-        </>
-      )}
-    </Stack>
+
+      {
+        (!orders || !customers || !products) && (
+          <Stack height='100vh' justifyContent="center" alignItems='center'>
+            <CircularProgress size={100} />
+          </Stack>
+        )
+      }
+    </Stack >
   );
 }
 

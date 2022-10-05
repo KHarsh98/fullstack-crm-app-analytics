@@ -27,3 +27,8 @@ backend/db.sqlite3
 Pipfile.lock
 Pipfile
 backend/portal/migrations/*
+**/__pycache__/
+
+erd.*
+
+static/
