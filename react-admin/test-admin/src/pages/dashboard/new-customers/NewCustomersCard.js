@@ -1,13 +1,15 @@
 import CustomerDisplay from 'customers/CustomerDisplay';
 import React from 'react'
 import "./newcustomerscard.scss";
-import { useGetList } from 'react-admin';
+import { useAuthenticated, useGetList } from 'react-admin';
 import { Loading, Error } from 'react-admin';
 import { Link } from 'react-router-dom';
 
 
 
 const NewCustomersCard = () => {
+    useAuthenticated();
+
     const { data, isLoading, isError, error } = useGetList('customers', {
         pagination: { page: 1, perPage: 10 },
         sort: { field: 'date_created', order: 'DESC' },
@@ -21,7 +23,7 @@ const NewCustomersCard = () => {
         <div className='card'>
             <h3 className='title'>Recent Customers</h3>
             <div className='customer-names'>
-                {data.map(customer =>
+                {Array.isArray(data) && data.map(customer =>
                     <li key={customer.name}>
                         <Link to={`/customers/${customer.id}`}>
                             <CustomerDisplay name={customer.name} picURL={customer.profile ?? "images/blank-profile.webp"} />

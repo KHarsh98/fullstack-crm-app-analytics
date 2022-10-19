@@ -1,9 +1,11 @@
 import React from 'react'
 import './pendingOrders.scss';
-import { Loading, Error, useGetList } from 'react-admin';
+import { Loading, Error, useGetList, useAuthenticated } from 'react-admin';
 import PendingOrder from './PendingOrder';
 
 const PendingOrders = () => {
+    useAuthenticated();
+
     const { data: orders, total, isLoading, error, isError } = useGetList(
         'orders',
         {
