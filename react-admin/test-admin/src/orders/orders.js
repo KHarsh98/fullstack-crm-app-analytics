@@ -48,6 +48,7 @@ export const OrderCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="order_number" fullWidth />
+            <DateInput source="date_of_order" fullWidth />
             <SelectInput fullWidth source="status" choices={statusChoices} />
             <SelectInput fullWidth source="status_payment" choices={statusPaymentChoices} />
             <ReferenceInput source="customerId" reference="customers">

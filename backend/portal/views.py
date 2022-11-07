@@ -8,6 +8,7 @@ from .models import *
 from rest_framework.decorators import action
 import datetime
 from django.contrib.auth import get_user_model
+import calendar
 
 
 class CustomerView(viewsets.ModelViewSet):
@@ -25,8 +26,12 @@ class CustomerView(viewsets.ModelViewSet):
     @action(detail=False, methods=['GET'])
     def get_new_customers(self, request, pk=None):
         date_today = datetime.date.today()
-        first_date = datetime.date(date_today.year, date_today.month-1, date_today.day)
-        total = Customer.objects.filter(date_created__range=[first_date, date_today]).count()
+        month_range = calendar.monthrange(date_today.year, date_today.month)
+        first_date = datetime.date(date_today.year, date_today.month, 1)
+        last_date = datetime.date(
+            date_today.year, date_today.month, month_range[1])
+        total = Customer.objects.filter(
+            date_created__range=[first_date, last_date]).count()
         return Response({'total': total})
 
 
@@ -65,26 +70,29 @@ class OrderView(viewsets.ModelViewSet):
     @action(detail=False, methods=['GET'])
     def get_monthly_revenue(self, request, pk=None):
         date_today = datetime.date.today()
+        month_range = calendar.monthrange(date_today.year, date_today.month)
         first_date = datetime.date(date_today.year, date_today.month, 1)
+        last_date = datetime.date(
+            date_today.year, date_today.month, month_range[1])
         orders = Order.objects.filter(status_payment='Payed', date_of_order__range=[
-                                      first_date, date_today])
+                                      first_date, last_date])
         monthly_revenue = sum([order.amount for order in orders])
         return Response({'total': monthly_revenue})
 
     @action(detail=False, methods=['GET'])
     def get_monthly_revenue_history(self, request, pk=None):
-        date_today = datetime.date.today()
+        year = datetime.date.today().year  # Set the current year
+        # Get the history for requested month
+        month = int(request.query_params.get('month'))
+        month_range = calendar.monthrange(year, month)
 
-        if date_today.month == 1:
-            start_date = datetime.date(date_today.year-1, 12, date_today.day)
-        else:
-            start_date = datetime.date(
-                date_today.year, date_today.month-1, date_today.day)
+        start_date = datetime.date(year, month, 1)
+        end_date = datetime.date(year, month, month_range[1])
 
         orders = Order.objects.filter(status_payment='Payed', date_of_order__range=[
-                                      start_date, date_today])
+            start_date, end_date])
 
-        delta = date_today - start_date
+        delta = end_date - start_date
         revenue_history = []
         for i in range(delta.days+1):
             date_now = start_date+datetime.timedelta(days=i)
@@ -93,7 +101,8 @@ class OrderView(viewsets.ModelViewSet):
             revenue_history_item['date'] = date_now.strftime('%d-%m-%Y')
 
             if orders_date_now:
-                revenue_history_item['total'] = sum([order.amount for order in orders_date_now])
+                revenue_history_item['total'] = sum(
+                    [order.amount for order in orders_date_now])
             else:
                 revenue_history_item['total'] = 0
             revenue_history.append(revenue_history_item)
@@ -108,24 +117,12 @@ class ProductView(viewsets.ModelViewSet):
     filterset_fields = ['name', 'category']
 
 
-class TransactionView(viewsets.ModelViewSet):
-    serializer_class = TransactionSerializer
-    queryset = Transaction.objects.all()
-    ordering_fields = '__all__'
-
-
-class TargetView(viewsets.ModelViewSet):
-    serializer_class = TargetSerializer
-    queryset = Target.objects.all()
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = '__all__'
-
-
 class ProductQuantityView(viewsets.ModelViewSet):
     serializer_class = ProductQuantitySerializer
     queryset = ProductQuantity.objects.all()
     filterset_fields = ['orderId']
     ordering_fields = '__all__'
+
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer

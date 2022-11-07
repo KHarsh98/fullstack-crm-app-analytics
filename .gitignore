@@ -32,3 +32,5 @@ backend/portal/migrations/*
 erd.*
 
 static/
+
+venv/

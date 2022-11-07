@@ -43,7 +43,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=100)
     customerId = models.ForeignKey(
         Customer, related_name='orders', on_delete=models.CASCADE)
-    date_of_order = models.DateField(auto_now_add=True)
+    date_of_order = models.DateField()
     status = models.CharField(max_length=50, choices=STATUS)
     status_payment = models.CharField(max_length=50, choices=STATUS_PAYMENT)
     amount = models.DecimalField(max_digits=7, decimal_places=2, default=0)
@@ -63,22 +63,3 @@ class ProductQuantity(models.Model):
                 fields=['productId', 'orderId'], name='unique_order_product'
             )
         ]
-
-
-class Transaction(models.Model):
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Payed', 'Payed'),
-        ('Cancelled', 'Cancelled'),
-    )
-    date_of_transaction = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=STATUS)
-    orderId = models.OneToOneField(Order, on_delete=models.CASCADE)
-
-
-class Target(models.Model):
-    year = models.PositiveSmallIntegerField()
-    daily_target = models.PositiveSmallIntegerField()
-    weekly_target = models.PositiveSmallIntegerField()
-    monthly_target = models.PositiveSmallIntegerField()
-    yearly_target = models.PositiveSmallIntegerField()
