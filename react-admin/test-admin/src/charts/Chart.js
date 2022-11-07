@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./chart.scss";
 import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
 import API_BASE from 'constants/API_BASE';
 import { useQuery } from 'react-query';
-import { Loading, Error } from 'react-admin';
+import { Loading, Error, Menu, useGetOne } from 'react-admin';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
-const fetchMonthyRevenue = () => {
-    let url = API_BASE + '/orders/get_monthly_revenue_history';
+
+const fetchMonthyRevenue = (month) => {
+    let url = API_BASE + '/orders/get_monthly_revenue_history/?';
     const token = localStorage.getItem('access');
-    return fetch(url, {
+    return fetch(url + new URLSearchParams({
+        month: month,
+    }), {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -16,7 +23,16 @@ const fetchMonthyRevenue = () => {
 }
 
 const Chart = () => {
-    const { isLoading, error, data } = useQuery('monthly-revenue', fetchMonthyRevenue);
+    let selectedMonth = new Date().getMonth() + 1;
+    const [monthSelected, setMonthSelected] = React.useState(selectedMonth.toString());
+
+    const handleChange = (event) => {
+        setMonthSelected(prev => event.target.value);
+        selectedMonth = event.target.value;
+        refetch();
+    };
+
+    const { isLoading, error, data, refetch } = useQuery('monthly-revenue', () => fetchMonthyRevenue(selectedMonth));
 
     if (isLoading) return <Loading />;
     if (error) return <Error />;
@@ -24,7 +40,34 @@ const Chart = () => {
     return (
 
         <div className="chart">
-            <div className="title">30 Day Revenue History</div>
+            <div className='header'>
+                <div className="title">30 Day Revenue History</div>
+                <div className="monthSelect">
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Month</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={monthSelected}
+                            label="Month"
+                            onChange={handleChange}
+                        >
+                            <MenuItem value={1}>January</MenuItem>
+                            <MenuItem value={2}>February</MenuItem>
+                            <MenuItem value={3}>March</MenuItem>
+                            <MenuItem value={4}>April</MenuItem>
+                            <MenuItem value={5}>May</MenuItem>
+                            <MenuItem value={6}>June</MenuItem>
+                            <MenuItem value={7}>July</MenuItem>
+                            <MenuItem value={8}>August</MenuItem>
+                            <MenuItem value={9}>September</MenuItem>
+                            <MenuItem value={10}>October</MenuItem>
+                            <MenuItem value={11}>November</MenuItem>
+                            <MenuItem value={12}>December</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+            </div>
             <ResponsiveContainer width="100%" aspect={2 / 1}>
                 <AreaChart width={730} height={250} data={data.revenue_history}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>

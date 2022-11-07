@@ -5,11 +5,19 @@
   background-color: white;
   border: 1px solid lightgray;
   border-radius: 10px;
-  .title {
-    font-size: 24px;
-    font-weight: 500;
-    color: black;
+
+  .header {
+    display: flex;
     padding: 10px;
+    .title {
+      flex: 2;
+      font-size: 24px;
+      font-weight: 500;
+      color: black;
+    }
+    .monthSelect {
+      flex: 1;
+    }
   }
 
   .chartGrid {

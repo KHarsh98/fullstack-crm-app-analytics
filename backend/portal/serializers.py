@@ -46,18 +46,6 @@ class ProductQuantitySerializer(serializers.ModelSerializer):
         model = ProductQuantity
         fields = '__all__'
 
-
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = '__all__'
-
-
-class TargetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Target
-        fields = '__all__'
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()

@@ -16,8 +16,6 @@ router.register(r'products', views.ProductView, 'product')
 router.register(r'product-quantity',
                 views.ProductQuantityView, 'product quantity')
 router.register(r'orders', views.OrderView, 'order')
-router.register(r'transactions', views.TransactionView, 'transaction')
-router.register(r'targets', views.TargetView, 'target')
 router.register(r'users', views.UserViewSet, 'user')
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS    
